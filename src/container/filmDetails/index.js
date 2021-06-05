@@ -10,6 +10,8 @@ import './index.scss'
 import { Tooltip } from 'antd';
 import axios from "axios";
 import moment from 'moment';
+import { connect } from 'react-redux';
+import { filmActions } from '../../actions/film.action';
 
 class FilmDetails extends Component {
 
@@ -41,16 +43,9 @@ class FilmDetails extends Component {
 
 
     componentDidMount() {
-        axios.get("https://api.themoviedb.org/3/movie/632357/credits?api_key=4f298a53e552283bee957836a529baec&language=en-US").then((res) => {
-            this.setState({ cast: res.data.cast })
-        })
-        axios.get("https://api.themoviedb.org/3/movie/632357/keywords?api_key=4f298a53e552283bee957836a529baec&language=en-US").then((res) => {
-            this.setState({ keywords: res.data.keywords })
-        })
-        axios.get("https://api.themoviedb.org/3/movie/632357?api_key=4f298a53e552283bee957836a529baec&language=en-US").then((res) => {
-            console.log(">>>>res filmDetails", res.data)
-            this.setState({ filmDetails: res.data })
-        })
+        this.props.dispatch(filmActions.getFilmCredits(632357));
+        this.props.dispatch(filmActions.getFilmKeywords(632357));
+        this.props.dispatch(filmActions.getFilmDetails(632357));
     }
 
     renderPosterOption = (icon, title, onclick) => {
@@ -78,7 +73,7 @@ class FilmDetails extends Component {
     }
 
     render() {
-        let details = this.state.filmDetails
+        let details = this.props.filmDetails
         return (
             details ?
                 <>
@@ -141,7 +136,7 @@ class FilmDetails extends Component {
                             <h3 class="castHeader">Series Cast</h3>
                             <ul class="customCarosel" onScroll={this.caroselScroll}>
                                 {
-                                    this.state.cast.length && this.state.cast.map((elm) => {
+                                    this.props.filmCredits.length && this.props.filmCredits.map((elm) => {
                                         return (
                                             < div class="singleCast">
                                                 <img src={elm.profile_path ? "https://image.tmdb.org//t/p/w500" + elm.profile_path : null} class="castImg" />
@@ -203,7 +198,7 @@ class FilmDetails extends Component {
                             }
                             <h1 class="rightMenuOption" style={{ marginTop: 22 }}>Keywords</h1>
                             <div class="keywordsContainer">
-                                {this.state.keywords.map((elm) => {
+                                {this.props.filmKeywords.map((elm) => {
                                     return (
                                         <span class="keyword">
                                             <p style={{ whiteSpace: 'nowrap', display: 'block', margin: 0, fontSize: 12 }}>{elm.name}</p>
@@ -219,4 +214,14 @@ class FilmDetails extends Component {
     }
 }
 
-export default FilmDetails;
+const mapStateToProps = state => {
+    let filmCredits = state.film.filmCredits;
+    let filmKeywords = state.film.filmKeywords;
+    let filmDetails = state.film.filmDetails
+
+    return {
+        filmCredits, filmKeywords, filmDetails
+    };
+};
+
+export default connect(mapStateToProps)(FilmDetails);
