@@ -1,0 +1,208 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+}
+.navigation-bar {
+    display: flex;
+    width: 100%;
+    height: 64px;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    background-color: #032541;
+}
+
+.navigation-bar-segment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation-bar-segment span {
+    margin: 0px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: "Source Sans Pro", Arial, sans-serif;
+    cursor: pointer;
+}
+
+.mainLogo {
+    width: 154px;
+    height: 20px;
+    margin-left: 40px;
+    margin-right: 8px;
+    object-fit: contain;
+}
+
+.languageOptions {
+    margin: 0px 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid white;
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    cursor: pointer;
+}
+
+.plusIcon {
+    color: white;
+    margin: 0px 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.plusIcon:hover {
+    color: #00aede;
+}
+
+.searchIcon {
+    color: #00aede;
+    margin-left: 10px;
+    margin-right: 40px;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.searchIcon:hover {
+    color: #007798;
+}
+
+.sideBarContainer {
+    width: 18%;
+    min-width: 260px;
+    margin-left: 40px;
+}
+
+.currentType {
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 1.8em;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebarOption {
+    height: 50px;
+    width: 100%;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 0px 3px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 13px;
+    padding-right: 13px;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sidebarSearchDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    border-radius: 10px;
+    background-color: rgb(235, 235, 235);
+    color: gray;
+    font-size: 14px;
+    font-weight: 500;
+}
+.filmsContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-row-gap: 30px;
+    width: 82%;
+    margin-top: 72px;
+    margin-bottom: 50px;
+    margin-left: 40px;
+}
+
+.singleFilmContainer {
+    width: 150px;
+    height: 310px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 0px 3px 0 rgba(0, 0, 0, 0.19);
+}
+
+.progressContainer {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    margin-top: -16px;
+    margin-left: 10px;
+}
+
+.filmImg {
+    width: 150px;
+    height: 215px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.filmTitle {
+    font-weight: 700;
+    color: #000;
+    margin-top: 14px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.filmTitle:hover {
+    color: #00aede;
+}
+.filmDate {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.threeDotsDiv {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    margin-left: 120px;
+    border-radius: 25px;
+    margin-top: 7px;
+    width: 23px;
+    height: 23px;
+    cursor: pointer;
+    background-color: rgba(220, 220, 220, 0.7);
+}
+
+.threeDotsDiv:hover {
+    background-color: #44d5fd;
+}
+
+@media screen and (max-width: 1200px) {
+    .filmsContainer {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media screen and (max-width: 1050px) {
+    .filmsContainer {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (max-width: 880px) {
+    .filmsContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .filmsContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
