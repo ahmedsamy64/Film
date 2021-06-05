@@ -8,10 +8,10 @@ import { FaTwitter, FaInstagram } from "react-icons/fa"
 import { BiLink } from "react-icons/bi"
 import './index.scss'
 import { Tooltip } from 'antd';
-import axios from "axios";
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { filmActions } from '../../actions/film.action';
+import styled from 'styled-components';
 
 class FilmDetails extends Component {
 
@@ -21,11 +21,32 @@ class FilmDetails extends Component {
             loading: true,
             blurEffect: true,
             updated: false,
-            movieID: null
+            movieID: null,
         }
     }
-
-    // posterDiv = 
+    // /wwFBRyekDcKXJwP0mImRJjAnudL.jpg
+    posterDiv = styled.div`
+    {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        height: fit-content;
+        position: relative;
+        padding: 20px;}
+        &:after {
+            content: "";
+            background-image: url(https://image.tmdb.org/t/p/w500${this.props.location.state});
+            background-size: cover;
+            background-position: center;
+            opacity: 0.9;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+    }
+    `
 
     posterOptions = [
         { icon: 'list', title: 'Login to create and edit custom lists', onclick: function () { alert("list Clicked"); } },
@@ -65,16 +86,16 @@ class FilmDetails extends Component {
 
     renderPosterOption = (icon, title, onclick) => {
         return (
-            /* <Tooltip placement="bottom" title={title} color='#032541'> */
-            <span onClick={onclick} class="posterListItem">
-                {
-                    icon === 'list' ? <IoListSharp /> :
-                        icon === 'favorite' ? <MdFavorite /> :
-                            icon === 'watchlist' ? <IoBookmark /> :
-                                icon === 'rate' ? <IoStarSharp /> : null
-                }
-            </span>
-            /*   </Tooltip> */
+            <Tooltip placement="top" title={title} key={icon} color='#032541' destroyTooltipOnHide={true} trigger="hover">
+                <span onClick={onclick} className="posterListItem">
+                    {
+                        icon === 'list' ? <IoListSharp /> :
+                            icon === 'favorite' ? <MdFavorite /> :
+                                icon === 'watchlist' ? <IoBookmark /> :
+                                    icon === 'rate' ? <IoStarSharp /> : null
+                    }
+                </span>
+            </Tooltip>
         )
     }
 
@@ -89,12 +110,13 @@ class FilmDetails extends Component {
 
     render() {
         console.log(">>>>", this.props.filmDetails)
-        console.log(">>>", this.props)
+        console.log(">>>", this.props.location.state)
         let details = this.props.filmDetails
         return (
             !this.state.loading ?
                 <>
-                    <div class="filmPoster" >
+                    {/* <div class="filmPoster" > */}
+                    <this.posterDiv>
                         <img src={"https://image.tmdb.org/t/p/w500" + details.poster_path} class="movieImg" />
                         <div class="filmDetails">
                             <span class="movieTitle">{details.title}<span class="releaseDate"> ({details.release_date.substring(0, 4)})</span> </span>
@@ -146,7 +168,8 @@ class FilmDetails extends Component {
                                 }
                             </div>
                         </div>
-                    </div>
+                    </this.posterDiv>
+                    {/* </div> */}
                     <div class="mainContainer">
                         {/* cast carosel */}
                         <div class="cast">
@@ -171,19 +194,19 @@ class FilmDetails extends Component {
                         {/* right menu */}
                         <div class={this.state.blurEffect ? "rightMenu" : "rightMenuWithoutBlur"}>
                             <div class="socialMediaIconsDiv">
-                                {/* <Tooltip placement="top" title="Visit Facebook" color='#032541' style={{ cursor: 'pointer' }}> */}
-                                <AiFillFacebook class="socialMediaIcon" />
-                                {/* </Tooltip> */}
-                                {/* <Tooltip placement="top" title="Visit Twitter" color='#032541' style={{ cursor: 'pointer' }}> */}
-                                <FaTwitter class="socialMediaIcon" />
-                                {/* </Tooltip> */}
-                                {/*  <Tooltip placement="top" title="Visit Instagram" color='#032541' style={{ cursor: 'pointer' }}> */}
-                                <FaInstagram class="socialMediaIcon" />
-                                {/* </Tooltip> */}
+                                <Tooltip placement="top" title="Visit Facebook" color='#032541' style={{ cursor: 'pointer' }}>
+                                    <AiFillFacebook className="socialMediaIcon" />
+                                </Tooltip>
+                                <Tooltip placement="top" title="Visit Twitter" color='#032541' style={{ cursor: 'pointer' }}>
+                                    <FaTwitter className="socialMediaIcon" />
+                                </Tooltip>
+                                <Tooltip placement="top" title="Visit Instagram" color='#032541' style={{ cursor: 'pointer' }}>
+                                    <FaInstagram className="socialMediaIcon" />
+                                </Tooltip>
                                 <span style={{ borderRight: "1px solid grey", height: "50%", width: 5, marginRight: 5 }} />
-                                {/*   <Tooltip placement="top" title="Visit Homepage" color='#032541' style={{ cursor: 'pointer' }}> */}
-                                <BiLink class="socialMediaIcon" style={{ transform: "rotate(45deg)" }} />
-                                {/*  </Tooltip> */}
+                                <Tooltip placement="top" title="Visit Homepage" color='#032541' style={{ cursor: 'pointer' }}>
+                                    <BiLink className="socialMediaIcon" style={{ transform: "rotate(45deg)" }} />
+                                </Tooltip>
                             </div>
                             <h1 class="rightMenuOption">Facts</h1>
                             <h1 class="rightMenuOption">Status</h1>

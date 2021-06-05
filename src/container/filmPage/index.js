@@ -13,7 +13,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { filmActions } from '../../actions/film.action';
 import './index.scss'
-import axios from 'axios';
 import moment from 'moment'
 
 class Film extends Component {
@@ -105,13 +104,13 @@ class Film extends Component {
                     <div className="filmsContainer">
                         {
                             this.props.films && this.props.films.map((film) => {
-                               // console.log(">>>>films", film)
+                                // console.log(">>>>films", film)
                                 return (
                                     <div className="singleFilmContainer">
                                         <div className="threeDotsDiv" >
                                             <BsThreeDots style={{ opacity: 0.4, fontSize: 15 }} />
                                         </div>
-                                        <Link to={`/movie/${film.id}`}>
+                                        <Link to={{ pathname: `/movie/${film.id}`, state: film.backdrop_path }} >
                                             <img src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} className="filmImg" />
                                         </Link>
                                         <div className="progressContainer">
