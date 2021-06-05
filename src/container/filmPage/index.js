@@ -10,7 +10,7 @@ import 'antd/dist/antd.css';
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { filmActions } from '../../actions/film.action';
 import './index.scss'
 import axios from 'axios';
@@ -29,8 +29,6 @@ class Film extends Component {
 
     componentDidMount() {
         this.props.dispatch(filmActions.getPopularFilms(this.state.currentTab.val))
-        // axios.get(`https://api.themoviedb.org/3/movie/${this.state.currentTab.val}?api_key=4f298a53e552283bee957836a529baec&language=en-US&page=1`)
-        //     .then((res) => this.setState({ films: res.data.results }))
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -41,20 +39,20 @@ class Film extends Component {
 
 
     moviesMenu = (<Menu style={{ width: 120 }}>
-        <Menu.Item>
-            <a onClick={() => this.setState({ currentTab: { label: "Upcoming", val: "upcoming" } })}>
+        <Menu.Item onClick={() => this.setState({ currentTab: { label: "Upcoming", val: "upcoming" } })}>
+            <span>
                 Upcoming
-                </a>
+            </span>
         </Menu.Item>
-        <Menu.Item>
-            <a onClick={() => this.setState({ currentTab: { label: "Popular", val: "popular" } })}>
+        <Menu.Item onClick={() => this.setState({ currentTab: { label: "Popular", val: "popular" } })}>
+            <span >
                 Popular
-                </a>
+            </span>
         </Menu.Item>
-        <Menu.Item>
-            <a onClick={() => this.setState({ currentTab: { label: "Top Rated", val: "top_rated" } })}>
+        <Menu.Item onClick={() => this.setState({ currentTab: { label: "Top Rated", val: "top_rated" } })}>
+            <span >
                 Top rated
-                </a>
+            </span>
         </Menu.Item>
     </Menu>)
 
@@ -90,7 +88,7 @@ class Film extends Component {
 
     render() {
         return (
-            <div className="mainContainer">
+            <div className="mainPageContainer">
                 {/* Page header */}
                 {this.Header}
                 {/* Page body */}
@@ -107,13 +105,15 @@ class Film extends Component {
                     <div className="filmsContainer">
                         {
                             this.props.films && this.props.films.map((film) => {
-                                console.log(">>>>films", film)
+                               // console.log(">>>>films", film)
                                 return (
                                     <div className="singleFilmContainer">
                                         <div className="threeDotsDiv" >
                                             <BsThreeDots style={{ opacity: 0.4, fontSize: 15 }} />
                                         </div>
-                                        <img src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} className="filmImg" />
+                                        <Link to={`/movie/${film.id}`}>
+                                            <img src={`https://image.tmdb.org/t/p/w500/${film.poster_path}`} className="filmImg" />
+                                        </Link>
                                         <div className="progressContainer">
                                             <CircularProgressbar
                                                 value={film.vote_average * 10}

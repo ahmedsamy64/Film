@@ -1,99 +1,4 @@
-import React, { Component } from 'react';
-import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
-import { IoListSharp, IoBookmark, IoStarSharp, IoCaretForwardSharp } from "react-icons/io5";
-import { MdFavorite } from "react-icons/md";
-import { AiFillFacebook } from "react-icons/ai"
-import { FaTwitter, FaInstagram } from "react-icons/fa"
-import { BiLink } from "react-icons/bi"
-import './index.scss'
-import { Tooltip } from 'antd';
-import axios from "axios";
-import moment from 'moment';
-import { connect } from 'react-redux';
-import { filmActions } from '../../actions/film.action';
-
-class FilmDetails extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: true,
-            blurEffect: true,
-            updated: false,
-            movieID: null
-        }
-    }
-
-    // posterDiv = 
-
-    posterOptions = [
-        { icon: 'list', title: 'Login to create and edit custom lists', onclick: function () { alert("list Clicked"); } },
-        { icon: 'favorite', title: 'Login to add this movie to your favorite list', onclick: function () { alert("favorite Clicked"); } },
-        { icon: 'watchlist', title: 'Login to add this movie to your watchlist', onclick: function () { alert("watchlist Clicked"); } },
-        { icon: 'rate', title: 'Login to rate this movie', onclick: function () { alert("rate Clicked"); } }
-    ]
-
-    //the footer of the poster. //dont know where to get this request
-    persons = [{ name: 'Caroline Suh', rule: 'Director' }, { name: 'Dana Fox', rule: 'Screenplay' }, { name: 'Tony McNamara', rule: 'Screenplay' },
-    { name: 'Kelly Marcel', rule: 'Story' }, { name: 'Aline Brosh McKenna', rule: 'Story' }]
-
-
-    keywords = ["endrrrrrrrrrrrrrrrrrdf ffffff fgtg", "thriller", "catastrophe", "salvation", "thriller", "catastrophe", "thriller", "catastrophe"]
-
-
-    async componentDidMount() {
-        this.setState({ loading: true })
-        let filmID = this.props.match.params.id
-        await this.props.dispatch(filmActions.getFilmCredits(filmID));
-        await this.props.dispatch(filmActions.getFilmDetails(filmID));
-        await this.props.dispatch(filmActions.getFilmKeywords(filmID));
-
-        this.setState({ movieID: filmID, loading: false })
-    }
-
-    async componentDidUpdate(prevProps, prevState) {
-        let filmID = this.props.match.params.id
-        if (prevState.movieID !== this.state.movieID) {
-            this.setState({ loading: true })
-            await this.props.dispatch(filmActions.getFilmCredits(filmID));
-            await this.props.dispatch(filmActions.getFilmDetails(filmID));
-            await this.props.dispatch(filmActions.getFilmKeywords(filmID));
-            this.setState({ movieID: filmID, loading: false })
-        }
-    }
-
-    renderPosterOption = (icon, title, onclick) => {
-        return (
-            /* <Tooltip placement="bottom" title={title} color='#032541'> */
-            <span onClick={onclick} class="posterListItem">
-                {
-                    icon === 'list' ? <IoListSharp /> :
-                        icon === 'favorite' ? <MdFavorite /> :
-                            icon === 'watchlist' ? <IoBookmark /> :
-                                icon === 'rate' ? <IoStarSharp /> : null
-                }
-            </span>
-            /*   </Tooltip> */
-        )
-    }
-
-    caroselScroll = () => {
-        let el = document.querySelector(".customCarosel")
-        let scroll = el.scrollLeft
-        if (scroll > 200) {
-            this.setState({ blurEffect: false });
-        }
-        else this.setState({ blurEffect: true })
-    }
-
-    render() {
-        console.log(">>>>", this.props.filmDetails)
-        console.log(">>>", this.props)
-        let details = this.props.filmDetails
-        return (
-            !this.state.loading ?
-                <>
+<>
                     <div class="filmPoster" >
                         <img src={"https://image.tmdb.org/t/p/w500" + details.poster_path} class="movieImg" />
                         <div class="filmDetails">
@@ -101,7 +6,7 @@ class FilmDetails extends Component {
                             <span class="facts">
                                 <span class="certificate">PG-13</span>
                                 <span style={{ marginLeft: 5 }}>{details.genres.map((elm, i) => (i !== details.length && i !== 0 ? "," : "") + elm.name)} •
-                        {Math.floor(details.runtime / 60) + "h " + details.runtime % 60 + "m"}</span>
+                                {Math.floor(details.runtime / 60) + "h " + details.runtime % 60 + "m"}</span>
                             </span>
                             <div class="filmOptionsDiv">
                                 <span class="progressContainerInPoster">
@@ -127,8 +32,8 @@ class FilmDetails extends Component {
                                 }
                                 <span class="trailer">
                                     <IoCaretForwardSharp style={{ fontSize: 18, marginRight: 6 }} />
-                        Play Trailer
-                    </span>
+                                Play Trailer
+                            </span>
                             </div>
                             <p class="tagline">{details.tagline}</p>
                             <h3 class="overview">Overview</h3>
@@ -226,19 +131,3 @@ class FilmDetails extends Component {
                         </div>
                     </div>
                 </>
-                : null
-        );
-    }
-}
-
-const mapStateToProps = state => {
-    let filmCredits = state.film.filmCredits;
-    let filmKeywords = state.film.filmKeywords;
-    let filmDetails = state.film.filmDetails
-
-    return {
-        filmCredits, filmKeywords, filmDetails
-    };
-};
-
-export default connect(mapStateToProps)(FilmDetails);
